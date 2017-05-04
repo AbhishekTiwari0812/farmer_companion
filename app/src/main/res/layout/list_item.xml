@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="#fefffe"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_rank_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="7dp"
+        android:text="RankHolder"
+        android:textColor="@color/colorGreen"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button_text_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="4dp"
+        android:background="@color/colorGreen"
+        android:padding="7dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="Switch to text"
+        android:textColor="#ffffff" />
+
+    <ImageView
+        android:id="@+id/imageview_info"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/wheat_soil_prep_img1"
+        android:visibility="visible" />
+
+    <ScrollView
+        android:id="@+id/text_info_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#220022"
+        android:fillViewport="true"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textview_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Hello test, hello test 1,2,3."
+                android:textColor="#dbfadb"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="3dp"
+        android:background="#f0f6fd"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="7dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/no_sound" />
+
+        <TextView
+            android:id="@+id/textview_current_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="09:20"
+            android:textColor="@color/colorGreen" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="7"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/textview_total_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="12:20"
+            android:textColor="@color/colorGreen" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_prev_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@color/colorGreen"
+            android:text="Prev"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/button_audio_player"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@color/colorGreen"
+            android:text="Play"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/button_next_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@color/colorGreen"
+            android:text="NEXT"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+
+</LinearLayout>

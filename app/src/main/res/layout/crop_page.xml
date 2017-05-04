@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        style="@style/crop_page_two_button_layout"
+        android:layout_weight="0.7"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select From Menu or Ask Question"
+            android:textColor="@color/colorGreen"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/crop_page_two_button_layout">
+
+        <LinearLayout
+            android:id="@+id/weather_and_timing_layout"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+
+                android:src="@drawable/thumbnail_weather" />
+
+            <TextView
+                android:id="@+id/weather_and_timing"
+                style="@style/crop_page_button_text"
+                android:text="Weather and Timing" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/verticle_seperator" />
+
+        <LinearLayout
+            android:id="@+id/layout_seed_soil"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+                android:src="@drawable/thumbnail_seed_soil" />
+
+            <TextView
+                style="@style/crop_page_button_text"
+                android:text="Soil/Seed Preparation" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/horizontal_seperator"></LinearLayout>
+
+    <LinearLayout style="@style/crop_page_two_button_layout">
+
+        <LinearLayout
+            android:id="@+id/layout_platation"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+                android:src="@drawable/thumbnail_farming" />
+
+            <TextView
+                style="@style/crop_page_button_text"
+                android:text="Farming" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/verticle_seperator" />
+
+        <LinearLayout
+            android:id="@+id/layout_diseases"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+                android:src="@drawable/thumbnail_bugs" />
+
+            <TextView
+                style="@style/crop_page_button_text"
+                android:text="Diseases" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/horizontal_seperator"></LinearLayout>
+
+    <LinearLayout style="@style/crop_page_two_button_layout">
+
+        <LinearLayout
+            android:id="@+id/layout_harvesting"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+                android:src="@drawable/thumbnail_weed" />
+
+            <TextView
+                style="@style/crop_page_button_text"
+                android:text="Weed Control" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/verticle_seperator" />
+
+        <LinearLayout
+            android:id="@+id/layout_storage"
+            style="@style/crop_page_button_layout">
+
+            <ImageView
+                style="@style/crop_page_image_button"
+                android:src="@drawable/thumbnail_harvesting" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/crop_page_button_text"
+                android:text="Harvesting\nAnd Storage" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".2"></LinearLayout>
+
+    <Button
+        android:id="@+id/query_ask_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/colorGreen"
+        android:text="            Ask Question            "
+        android:textColor="#fff" />
+</LinearLayout>
