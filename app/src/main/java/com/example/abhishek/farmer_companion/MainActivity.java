@@ -12,14 +12,19 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     static final String CROP_NAME = "CROP_NAME";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    //static final String WEATHER_API_KEY = "299bb9cfeb7af14e2de5cf2ff023a86f";
 
+    @Override
+    /*
+    *   App opener activity.
+    *   After splash activity, control reaches here.
+    * */
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_page);
         // wheat page opening button
-        // TODO: add thumbnails.
-
+        // Open crop page.
+        // intent data sends info about the page to be opened
         Button wheatPage = (Button) findViewById(R.id.button1);
         wheatPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,5 +54,4 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 }

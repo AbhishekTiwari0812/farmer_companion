@@ -1,9 +1,11 @@
 package com.example.abhishek.farmer_companion;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -22,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SlideViewer extends AppCompatActivity {
 
@@ -43,22 +47,23 @@ public class SlideViewer extends AppCompatActivity {
         /*if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }*/
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
         // Getting the information about the current crop name.
+        // And the section,
+        // to decide which info-graphics to show.
+        // Example: wheat_0_  OR paddy_1_
         Intent intent = getIntent();
         sectionInformer = intent.getStringExtra("CROP_SECTION");
-
         setContentView(R.layout.crop_static_layout);
-
         // Setting up the slide view.
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnPrev = (Button) findViewById(R.id.btn_prev);
         btnNext = (Button) findViewById(R.id.btn_next);
-
         // Filling the slide view with infographic information.
         infographic_list = fillList();      // Gets the content to be filled in the views.
         int infographic_size = infographic_list.size();
@@ -111,22 +116,15 @@ public class SlideViewer extends AppCompatActivity {
     // Creates a list of ListItemObject
     // returns content to populate the slide-viewer
     private ArrayList<ListItemObject> fillList() {
-        //Get the text for infographic from TextInfoClass
+        //Get the text for info-graphics from TextInfoClass
         TextInfoClass infoText = new TextInfoClass();
-        String resLocation = sectionInformer;       // find the location, where the resource is located
-        // for current crop.
+        String resLocation = sectionInformer;       // directory location where the resource is located for current page.
+        // for current crop and section,
         // Fetching images and audio
         ArrayList<Integer> images = getResList(resLocation, true);  // 2nd parameter = true fetches the images.
         int imageListSize = images.size();
-        ArrayList<Integer> songs = getResList(resLocation, false);
+        ArrayList<Integer> songs = getResList(resLocation, false);      // false: fetches the audio
         int songListSize = songs.size();
-
-        if (songs.size() > images.size()) {
-            //Toast.makeText(getApplicationContext(), "Extra audio or missing images", Toast.LENGTH_SHORT).show();
-        } else if (songs.size() < images.size()) {
-            //Toast.makeText(getApplicationContext(), "Extra images or missing audio", Toast.LENGTH_SHORT).show();
-        }
-
         // populating the list
         int listSize = images.size() > songs.size() ? images.size() : songs.size();
         ArrayList<ListItemObject> list = new ArrayList<>();
@@ -147,11 +145,25 @@ public class SlideViewer extends AppCompatActivity {
             a.textInfo = infoText.getText(sectionInformer + i);     // sets the text information about the info-graphic.
             list.add(a);
         }
+        HashMap<Integer, String> videoUrls = getVideoUrl();
+        for (int i = 0; i < list.size(); ++i) {
+            ListItemObject currObj = list.get(i);
+            Integer imgUrl = currObj.getImageResource();
+            if (videoUrls.containsKey(imgUrl)) {
+                // TODO: Might cause error
+                // Check whether
+                currObj.isVideo = true;
+                currObj.vidUrl = videoUrls.get(imgUrl);
+            }
+        }
         return list;
     }
 
     // helper function for fill-list.
     // fetches the images and audio files from the res directory.
+    // The images in the drawable folder should be named properly
+    // to position the infographics in correct places.
+
     ArrayList<Integer> getResList(String resIdInit, boolean isImage) {
         ArrayList<Integer> list = new ArrayList<>();
         String url = "";
@@ -189,6 +201,21 @@ public class SlideViewer extends AppCompatActivity {
         System.out.println("" + s);
     }
 
+    // TODO: Add the video resource names and the link in the hashmap
+    // TODO: Change the map here if new video is to be added
+    private HashMap<Integer, String> getVideoUrl() {
+        HashMap<String, String> videoUrlsString = new HashMap<>();
+        videoUrlsString.put("wheat_1_2", "https://www.youtube.com/watch?v=rw6fV7dstmA");
+        HashMap<Integer, String> videoUrls = new HashMap<>();
+        List<String> urls = new ArrayList<>(videoUrlsString.keySet());
+        for (int i = 0; i < videoUrlsString.size(); ++i) {
+            int imageresource = getResources().getIdentifier("drawable/" + urls.get(i), "drawable", getPackageName());
+            videoUrls.put(imageresource, videoUrlsString.get(urls.get(i)));
+            // _("set image resource: " + imageresource);
+            // _("IMG URL STRING::" + "drawable/" + urls.get(i));
+        }
+        return videoUrls;
+    }
 
     // Adds dots in the bottom of the slide view pages.
     // Helps visualizing navigation
@@ -268,14 +295,19 @@ public class SlideViewer extends AppCompatActivity {
         private LayoutInflater layoutInflater;
         private int[] image_res;
         private String[] text_res;
+        private HashMap<Integer, String> videoUrls;
         private int[] audio_res;
 
         public MyViewPagerAdapter(ArrayList<ListItemObject> a) {
             // setting the resources in the slide view.
             int l_size = a.size();
             this.image_res = new int[l_size];
+            this.videoUrls = new HashMap<>();
             for (int i = 0; i < l_size; ++i) {
                 this.image_res[i] = a.get(i).getImageResource();
+                if (a.get(i).isVideo) {
+                    this.videoUrls.put(a.get(i).getImageResource(), a.get(i).vidUrl);
+                }
             }
             this.text_res = new String[l_size];
             for (int i = 0; i < l_size; ++i) {
@@ -285,26 +317,37 @@ public class SlideViewer extends AppCompatActivity {
             for (int i = 0; i < l_size; ++i) {
                 this.audio_res[i] = a.get(i).getAudioResourceLocation();
             }
+
+            for (int i = 0; i < l_size; ++i) {
+
+            }
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(layouts[position], container, false);
             ImageView infoImage = (ImageView) view.findViewById(R.id.info_image);
             TextView infoText = (TextView) view.findViewById(R.id.info_text);
-            //Button infoAudio = (Button) view.findViewById(R.id.info_audio);
             // TODO: change the page content here.
             infoImage.setImageResource(image_res[position]);
             infoText.setText(text_res[position]);
-            /*infoAudio.setVisibility(View.GONE);
-            infoAudio.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // TODO: create the music player for the audio files.
-                }
-            });
-            */
+            if (this.videoUrls.containsKey(Integer.valueOf(image_res[position]))) {
+                infoImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String id = videoUrls.get(image_res[position]);
+                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(id));
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(id));
+                        try {
+                            startActivity(appIntent);
+                        } catch (ActivityNotFoundException ex) {
+                            startActivity(webIntent);
+                        }
+                    }
+                });
+            }
             container.addView(view);
             return view;
         }

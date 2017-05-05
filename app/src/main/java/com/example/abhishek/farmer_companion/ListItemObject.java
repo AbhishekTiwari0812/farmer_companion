@@ -8,7 +8,10 @@ public class ListItemObject {
     int imageResourceLocation;
     int audioResourceLocation;
     String textInfo;
+
     //boolean isToggled;  // if true, text should show up. If not, image should
+    boolean isVideo;
+    String vidUrl;
 
     public int getImageResource() {
         return imageResourceLocation;

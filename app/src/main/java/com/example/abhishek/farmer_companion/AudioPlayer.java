@@ -1,11 +1,9 @@
+/*
+
 package com.example.abhishek.farmer_companion;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-
-/**
- * Created by Abhishek on 27-11-2016.
- */
 
 public class AudioPlayer {
     boolean isPlaying;
@@ -66,3 +64,4 @@ public class AudioPlayer {
         }
     }
 }
+*/
