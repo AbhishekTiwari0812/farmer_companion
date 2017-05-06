@@ -5,13 +5,13 @@
         <item android:title="Crops">
             <menu>
                 <item
-                    android:id="@+id/nav_gallery"
+                    android:id="@+id/wheat_crop"
                     android:title="          Wheat" />
                 <item
-                    android:id="@+id/nav_slideshow"
+                    android:id="@+id/paddy_crop"
                     android:title="          Paddy" />
                 <item
-                    android:id="@+id/nav_manage"
+                    android:id="@+id/cotton_crop"
                     android:title="          Cotton" />
             </menu>
         </item>

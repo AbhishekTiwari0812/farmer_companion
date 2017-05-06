@@ -24,6 +24,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.side_drawer_main);
+
+        LinearLayout main_page_layout = (LinearLayout) findViewById(R.id.activity_main);
+        main_page_layout.setVisibility(View.VISIBLE);
+        LinearLayout crop_page_layout = (LinearLayout) findViewById(R.id.activity_crop_main);
+        crop_page_layout.setVisibility(View.GONE);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -103,23 +110,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_gallery) {
-
-
-        } else if (id == R.id.nav_slideshow) {
-
-
-        } else if (id == R.id.nav_manage) {
-
-
-        } else if (id == R.id.nav_share) {
-
-
-        } else if (id == R.id.nav_send) {
-
-
+        String cropName = null;
+        if (id == R.id.wheat_crop) {
+            cropName = "wheat";
+        } else if (id == R.id.paddy_crop) {
+            cropName = "paddy";
+        } else if (id == R.id.cotton_crop) {
+            cropName = "cotton";
         }
-
+        Intent intent = new Intent(getApplicationContext(), CropPage.class);
+        intent.putExtra(CROP_NAME, cropName);
+        startActivity(intent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_crop_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="50dp">
 
     <LinearLayout
         style="@style/crop_page_two_button_layout"
@@ -15,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select From Menu or Ask Question"
-            android:textColor="@color/colorGreen"
+            android:textColor="#1EA362"
             android:textSize="18sp" />
 
 
@@ -50,6 +54,8 @@
 
             <TextView
                 style="@style/crop_page_button_text"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="Soil/Seed Preparation" />
         </LinearLayout>
     </LinearLayout>
@@ -133,7 +139,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="6dp"
-        android:background="@color/colorGreen"
+        android:background="#1EA362"
         android:text="            Ask Question            "
         android:textColor="#fff" />
 </LinearLayout>

@@ -46,7 +46,6 @@ public class QueryPage extends AppCompatActivity {
     Button captureImage;
     Button sendDataButton;
     Button uploadFromPhone;
-    Button predictWeather;
     LinearLayout queryButtonLayout;
     TextView tv_or_string;
     String queryImageStringForm;
@@ -61,13 +60,13 @@ public class QueryPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.query_page);
+        this.setTitle("  Ask Question");
         backPressCount = 0;
         context = this;
         queryButtonLayout = (LinearLayout) findViewById(R.id.image_query_layout);
         imageHolder = (ImageView) findViewById(R.id.captured_photo);
         captureImage = (Button) findViewById(R.id.photo_button);
         uploadFromPhone = (Button) findViewById(R.id.upload_button);
-        predictWeather = (Button) findViewById(R.id.predict_weather_button);
         tv_or_string = (TextView) findViewById(R.id.textview_or_string);
 
         // start using the camera
@@ -165,7 +164,6 @@ public class QueryPage extends AppCompatActivity {
             //captureImage.setVisibility(View.VISIBLE);
             //uploadFromPhone.setVisibility(View.VISIBLE);
             tv_or_string.setVisibility(View.VISIBLE);
-            predictWeather.setVisibility(View.VISIBLE);
             sendDataButton.setVisibility(View.GONE);
 
         } else {
@@ -173,14 +171,13 @@ public class QueryPage extends AppCompatActivity {
             //captureImage.setVisibility(View.GONE);
             //uploadFromPhone.setVisibility(View.GONE);
             tv_or_string.setVisibility(View.GONE);
-            predictWeather.setVisibility(View.GONE);
             sendDataButton.setVisibility(View.VISIBLE);
         }
     }
 
-     /*
-      * Converts bitmap to byte-stream
-     **/
+    /*
+     * Converts bitmap to byte-stream
+    **/
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);

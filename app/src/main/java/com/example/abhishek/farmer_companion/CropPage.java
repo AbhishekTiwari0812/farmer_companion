@@ -2,14 +2,17 @@ package com.example.abhishek.farmer_companion;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * Created by Abhishek on 04-10-2016.
@@ -19,16 +22,31 @@ import java.util.ArrayList;
  * Query button.
  */
 
-public class CropPage extends AppCompatActivity {
+public class CropPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.crop_page);
+        setContentView(R.layout.side_drawer_main);
+        LinearLayout crop_page_layout = (LinearLayout) findViewById(R.id.activity_crop_main);
+        crop_page_layout.setVisibility(View.VISIBLE);
+        LinearLayout main_page_layout = (LinearLayout) findViewById(R.id.activity_main);
+        main_page_layout.setVisibility(View.GONE);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         // Get the name of the crop
         // To find which infographics to show.
         final String cropName = getIntent().getExtras().getString("CROP_NAME");
-
+        this.setTitle(cropName.toUpperCase().charAt(0) + cropName.substring(1) + " Crop");
         // Set onclick listeners for each button.
         LinearLayout whetherAndTiming = (LinearLayout) findViewById(R.id.weather_and_timing_layout);
         Button queryAsker = (Button) findViewById(R.id.query_ask_button);
@@ -109,6 +127,61 @@ public class CropPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        String cropName = null;
+        if (id == R.id.wheat_crop) {
+            cropName = "wheat";
+        } else if (id == R.id.paddy_crop) {
+            cropName = "paddy";
+        } else if (id == R.id.cotton_crop) {
+            cropName = "cotton";
+        }
+        Intent intent = new Intent(getApplicationContext(), CropPage.class);
+        intent.putExtra("CROP_NAME", cropName);
+        startActivity(intent);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }

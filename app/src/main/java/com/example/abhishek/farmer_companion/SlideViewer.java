@@ -123,10 +123,8 @@ public class SlideViewer extends AppCompatActivity {
         // Fetching images and audio
         ArrayList<Integer> images = getResList(resLocation, true);  // 2nd parameter = true fetches the images.
         int imageListSize = images.size();
-        ArrayList<Integer> songs = getResList(resLocation, false);      // false: fetches the audio
-        int songListSize = songs.size();
         // populating the list
-        int listSize = images.size() > songs.size() ? images.size() : songs.size();
+        int listSize = images.size();
         ArrayList<ListItemObject> list = new ArrayList<>();
         for (int i = 0; i < listSize; ++i) {
             ListItemObject a = new ListItemObject();
@@ -137,11 +135,7 @@ public class SlideViewer extends AppCompatActivity {
                 a.imageResourceLocation = R.drawable.default_image;     // If an image is missing and audio is present, a place holder image
                 // is set.
             }
-            if (i < songListSize)
-                a.audioResourceLocation = songs.get(i);
-            else {
-                a.audioResourceLocation = R.raw.default_audio;      // If the audio file is missing, placeholder audio file is set.
-            }
+
             a.textInfo = infoText.getText(sectionInformer + i);     // sets the text information about the info-graphic.
             list.add(a);
         }
@@ -150,8 +144,6 @@ public class SlideViewer extends AppCompatActivity {
             ListItemObject currObj = list.get(i);
             Integer imgUrl = currObj.getImageResource();
             if (videoUrls.containsKey(imgUrl)) {
-                // TODO: Might cause error
-                // Check whether
                 currObj.isVideo = true;
                 currObj.vidUrl = videoUrls.get(imgUrl);
             }
@@ -313,14 +305,7 @@ public class SlideViewer extends AppCompatActivity {
             for (int i = 0; i < l_size; ++i) {
                 this.text_res[i] = a.get(i).getText();
             }
-            this.audio_res = new int[l_size];
-            for (int i = 0; i < l_size; ++i) {
-                this.audio_res[i] = a.get(i).getAudioResourceLocation();
-            }
 
-            for (int i = 0; i < l_size; ++i) {
-
-            }
         }
 
         @Override

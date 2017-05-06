@@ -6,7 +6,7 @@ package com.example.abhishek.farmer_companion;
 
 public class ListItemObject {
     int imageResourceLocation;
-    int audioResourceLocation;
+   // int audioResourceLocation;
     String textInfo;
 
     //boolean isToggled;  // if true, text should show up. If not, image should
@@ -17,9 +17,9 @@ public class ListItemObject {
         return imageResourceLocation;
     }
 
-    public int getAudioResourceLocation() {
+    /*public int getAudioResourceLocation() {
         return audioResourceLocation;
-    }
+    }*/
 
     public String getText() {
         return textInfo;

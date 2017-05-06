@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Choose Language\nਭਾਸ਼ਾ ਚੁਣੋ"
+        android:textColor="#1EA362"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/language_english"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#1EA362"
+        android:text="   English   "
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/language_punjabi"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#1EA362"
+        android:text="   ਪੰਜਾਬੀ     "
+        android:textColor="#fff"
+        android:textSize="24sp" />
+
+</LinearLayout>

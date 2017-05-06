@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0"
+        android:padding="16dp"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -25,15 +26,14 @@
         android:background="#eee"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="7dp"
         android:weightSum="4">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.8"
-            android:text="ASK US USING PHOTOS OF INSECTS OR INFECTED CROP..."
-            android:textColor="@color/colorGreen" />
+            android:text="ASK US USING PHOTOS OF INSECT..."
+            android:textColor="#1EA362" />
 
         <Button
             android:id="@+id/photo_button"
@@ -43,7 +43,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:background="@color/colorGreen"
+            android:background="#1EA362"
             android:text="Capture Image"
             android:textColor="#fff" />
 
@@ -55,7 +55,7 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:text="OR"
-            android:textColor="@color/colorGreen"
+            android:textColor="#1EA362"
             android:textSize="20sp" />
 
         <Button
@@ -66,7 +66,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:background="@color/colorGreen"
+            android:background="#1EA362"
             android:text="Upload Image from phone"
             android:textColor="#fff" />
     </LinearLayout>
@@ -79,21 +79,9 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="7dp"
         android:layout_weight="1"
-        android:background="@color/colorGreen"
+        android:background="#1EA362"
         android:text="Send Data"
         android:textColor="#fff"
         android:visibility="gone" />
-
-    <Button
-        android:id="@+id/predict_weather_button"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1"
-        android:background="@color/colorGreen"
-        android:text="Predict Weather"
-        android:textColor="#fff" />
 
 </LinearLayout>
