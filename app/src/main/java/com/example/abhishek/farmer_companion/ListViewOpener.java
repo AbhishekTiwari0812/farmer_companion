@@ -1,1 +1,0 @@
-package com.example.abhishek.farmer_companion;

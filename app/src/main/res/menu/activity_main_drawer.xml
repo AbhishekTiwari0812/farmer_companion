@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Crops">
+            <menu>
+                <item
+                    android:id="@+id/nav_gallery"
+                    android:title="          Wheat" />
+                <item
+                    android:id="@+id/nav_slideshow"
+                    android:title="          Paddy" />
+                <item
+                    android:id="@+id/nav_manage"
+                    android:title="          Cotton" />
+            </menu>
+        </item>
+    </group>
+
+
+    <item android:title="Select Language">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="          English" />
+            <item
+                android:id="@+id/nav_send"
+                android:title="          ਪੰਜਾਬੀ" />
+        </menu>
+    </item>
+
+</menu>

@@ -6,49 +6,49 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:gravity="bottom"
-    android:paddingLeft="30dp"
-    android:paddingBottom="40dp"
-    android:weightSum="17"
     android:orientation="vertical"
-    tools:context="com.example.abhishek.btp1.MainActivity">
+    android:paddingBottom="40dp"
+    android:paddingLeft="30dp"
+    android:weightSum="20"
+    tools:context="com.example.abhishek.farmer_companion.MainActivity">
 
     <LinearLayout
-
+        android:id="@+id/layout_wheat_crop"
         style="@style/page1_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="5"
         android:layout_marginBottom="10dp"
+        android:layout_weight="5"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/button1"
             style="@style/page1_button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="@drawable/wheat_round"
-            android:text="" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
             android:layout_marginLeft="20dp"
+            android:text="Wheat"
             android:textColor="#1EA362"
-            android:text="Wheat" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_paddy_crop"
         style="@style/page1_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_weight="5">
 
         <Button
             android:id="@+id/button2"
             style="@style/page1_button_style"
             android:layout_width="wrap_content"
+            android:clickable="false"
             android:layout_height="wrap_content"
             android:background="@drawable/paddy_round" />
 
@@ -56,14 +56,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:textSize="24sp"
+            android:text="Paddy"
             android:textColor="#1EA362"
-            android:text="Paddy" />
+            android:textSize="24sp" />
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/layout_cotton_crop"
         style="@style/page1_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -73,16 +74,17 @@
             android:id="@+id/button3"
             style="@style/page1_button_style"
             android:layout_width="wrap_content"
+            android:clickable="false"
             android:layout_height="wrap_content"
             android:background="@drawable/cotton_round" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#1EA362"
-            android:textSize="24sp"
             android:layout_marginLeft="20dp"
-            android:text="Cotton" />
+            android:text="Cotton"
+            android:textColor="#1EA362"
+            android:textSize="24sp" />
 
     </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.example.abhishek.farmer_companion;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,17 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    static final String CROP_NAME = "CROP_NAME";
+public class SideDrawerActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
-    /*
-    *   App opener activity.
-    *   After splash activity, control reaches here.
-    * */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.side_drawer_main);
@@ -34,36 +27,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        LinearLayout wheatPage = (LinearLayout) findViewById(R.id.layout_wheat_crop);
-        wheatPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CropPage.class);
-                intent.putExtra(CROP_NAME, "wheat");
-                startActivity(intent);
-            }
-        });
-        LinearLayout paddyPage = (LinearLayout) findViewById(R.id.layout_paddy_crop);
-        paddyPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CropPage.class);
-                intent.putExtra(CROP_NAME, "paddy");
-                startActivity(intent);
-            }
-        });
-        LinearLayout cottonPage = (LinearLayout) findViewById(R.id.layout_cotton_crop);
-        cottonPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CropPage.class);
-                intent.putExtra(CROP_NAME, "cotton");
-                startActivity(intent);
-            }
-        });
-
     }
 
     @Override
