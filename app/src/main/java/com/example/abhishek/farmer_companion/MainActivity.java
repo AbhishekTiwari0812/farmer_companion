@@ -1,6 +1,7 @@
 package com.example.abhishek.farmer_companion;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -111,16 +112,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         String cropName = null;
+        String preferredLanguage = null;
         if (id == R.id.wheat_crop) {
             cropName = "wheat";
         } else if (id == R.id.paddy_crop) {
             cropName = "paddy";
         } else if (id == R.id.cotton_crop) {
             cropName = "cotton";
+        } else if (id == R.id.lang_english) {
+            preferredLanguage = OneTimeActivity.ENGLISH;
+        } else if (id == R.id.lang_punjabi) {
+            preferredLanguage = OneTimeActivity.PUNJABI;
         }
-        Intent intent = new Intent(getApplicationContext(), CropPage.class);
-        intent.putExtra(CROP_NAME, cropName);
-        startActivity(intent);
+
+        if (cropName != null) {
+            Intent intent = new Intent(getApplicationContext(), CropPage.class);
+            intent.putExtra(CROP_NAME, cropName);
+            startActivity(intent);
+            //finish();
+        }
+
+        else if (preferredLanguage != null) {
+            SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+            String prevLang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+            if (prevLang.compareTo(preferredLanguage) == 0) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            } else {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(OneTimeActivity.PREF_LANG, preferredLanguage);
+                editor.commit();
+                Intent i = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

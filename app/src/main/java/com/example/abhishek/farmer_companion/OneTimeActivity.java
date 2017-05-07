@@ -14,7 +14,10 @@ import android.widget.Button;
 
 public class OneTimeActivity extends AppCompatActivity {
     SharedPreferences preferences;
-    private static final String PREF_FILE = "FARMER_PREFERENCE";
+    static final String PREF_FILE = "FARMER_PREFERENCE";
+    static final String PREF_LANG = "pref_lang";
+    static final String ENGLISH = "ENG";
+    static final String PUNJABI = "PUN";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,19 +29,18 @@ public class OneTimeActivity extends AppCompatActivity {
             english_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setLanguage("English");
+                    setLanguage(ENGLISH);
                     startMainActivity();
                 }
             });
             punjabi_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setLanguage("Punjabi");
+                    setLanguage(PUNJABI);
                     startMainActivity();
                 }
             });
-        }
-        else startMainActivity();
+        } else startMainActivity();
     }
 
     boolean appOpenedFirstTime() {
@@ -61,7 +63,7 @@ public class OneTimeActivity extends AppCompatActivity {
     void setLanguage(String lang) {
         preferences = getSharedPreferences(PREF_FILE, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("Language", lang);
+        editor.putString(PREF_LANG, lang);
         editor.commit();
     }
 }

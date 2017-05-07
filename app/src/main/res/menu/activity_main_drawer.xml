@@ -21,10 +21,10 @@
     <item android:title="Select Language">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/lang_english"
                 android:title="          English" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/lang_punjabi"
                 android:title="          ਪੰਜਾਬੀ" />
         </menu>
     </item>
