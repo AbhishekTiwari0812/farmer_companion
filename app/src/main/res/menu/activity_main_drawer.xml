@@ -28,5 +28,7 @@
                 android:title="          ਪੰਜਾਬੀ" />
         </menu>
     </item>
-
+    <item
+        android:id="@+id/tutorial_opener"
+        android:title="Open Tutorial"></item>
 </menu>

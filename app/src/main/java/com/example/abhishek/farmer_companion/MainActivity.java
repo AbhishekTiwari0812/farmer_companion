@@ -139,13 +139,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             preferredLanguage = OneTimeActivity.ENGLISH;
         } else if (id == R.id.lang_punjabi) {
             preferredLanguage = OneTimeActivity.PUNJABI;
+        } else if (id == R.id.tutorial_opener) {
+            Intent intent = new Intent(getApplicationContext(), TutorialSlide.class);
+            intent.putExtra("drawer_flag", "true");
+            startActivity(intent);
         }
 
         if (cropName != null) {
             Intent intent = new Intent(getApplicationContext(), CropPage.class);
             intent.putExtra(CROP_NAME, cropName);
             startActivity(intent);
-            //finish();
         } else if (preferredLanguage != null) {
             SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
             String prevLang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
@@ -162,9 +165,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 i.putExtra("APP_LANG_CHANGE", "YES");
                 startActivity(i);
-                //finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
+                finish();
+                //android.os.Process.killProcess(android.os.Process.myPid());
+                //System.exit(1);
             }
         }
 

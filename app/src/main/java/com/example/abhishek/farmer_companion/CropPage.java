@@ -204,6 +204,10 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
             preferredLanguage = OneTimeActivity.ENGLISH;
         } else if (id == R.id.lang_punjabi) {
             preferredLanguage = OneTimeActivity.PUNJABI;
+        } else if (id == R.id.tutorial_opener) {
+            Intent intent = new Intent(getApplicationContext(), TutorialSlide.class);
+            intent.putExtra("drawer_flag", "true");
+            startActivity(intent);
         }
 
         if (cropName != null) {
@@ -227,9 +231,9 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 i.putExtra("APP_LANG_CHANGE", "YES");
                 startActivity(i);
-                //finish();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(1);
+                finish();
             }
         }
 

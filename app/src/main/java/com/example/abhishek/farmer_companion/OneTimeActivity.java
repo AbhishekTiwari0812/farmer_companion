@@ -30,14 +30,20 @@ public class OneTimeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     setLanguage(ENGLISH);
-                    startMainActivity();
+                    System.out.println("Opening tutorial");
+                    Intent intent = new Intent(getApplicationContext(), TutorialSlide.class);
+                    startActivity(intent);
+                    finish();
                 }
             });
             punjabi_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     setLanguage(PUNJABI);
-                    startMainActivity();
+                    Intent intent = new Intent(getApplicationContext(), TutorialSlide.class);
+                    startActivity(intent);
+                    finish();
+                    //startMainActivity();
                 }
             });
         } else startMainActivity();
