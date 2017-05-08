@@ -24,6 +24,7 @@
                 android:id="@+id/info_image"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:scaleY="1.4"
                 android:src="@drawable/wheat_0_0" />
 
             <TextView

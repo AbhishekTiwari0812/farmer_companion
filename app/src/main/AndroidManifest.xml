@@ -11,9 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".OneTimeActivity"
-            android:noHistory="true"></activity>
+        <activity android:name=".OneTimeActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -23,9 +21,7 @@
         <activity android:name=".SlideViewer"></activity>
         <activity android:name=".QueryPage"></activity>
 
-        <activity
-            android:name=".SplashScreen"
-            android:noHistory="true">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

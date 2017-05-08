@@ -15,14 +15,22 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen_layout);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashScreen.this, OneTimeActivity.class);
-                startActivity(i);
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
+        Intent intent = getIntent();
+        String internalRestartFlag = intent.getStringExtra("APP_LANG_CHANGE");
+        if (internalRestartFlag != null) {
+            Intent i = new Intent(SplashScreen.this, OneTimeActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+            setContentView(R.layout.splash_screen_layout);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(SplashScreen.this, OneTimeActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, SPLASH_TIME_OUT);
+        }
     }
 }

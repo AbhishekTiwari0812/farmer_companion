@@ -16,6 +16,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_intro_pick_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select From Menu or Ask Question"
@@ -37,9 +38,9 @@
                 android:src="@drawable/thumbnail_weather" />
 
             <TextView
-                android:id="@+id/weather_and_timing"
+                android:id="@+id/tv_weather_and_timing"
                 style="@style/crop_page_button_text"
-                android:text="Weather and Timing" />
+                android:text="Weather and Soil" />
         </LinearLayout>
 
         <LinearLayout style="@style/verticle_seperator" />
@@ -53,10 +54,11 @@
                 android:src="@drawable/thumbnail_seed_soil" />
 
             <TextView
+                android:id="@+id/tv_seed_variety"
                 style="@style/crop_page_button_text"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Soil/Seed Preparation" />
+                android:text="Seed Variety" />
         </LinearLayout>
     </LinearLayout>
 
@@ -73,8 +75,10 @@
                 android:src="@drawable/thumbnail_farming" />
 
             <TextView
+                android:id="@+id/tv_land_and_seed"
                 style="@style/crop_page_button_text"
-                android:text="Farming" />
+                android:gravity="center"
+                android:text="Land and Seed Preparation" />
         </LinearLayout>
 
         <LinearLayout style="@style/verticle_seperator" />
@@ -88,8 +92,10 @@
                 android:src="@drawable/thumbnail_bugs" />
 
             <TextView
+                android:id="@+id/tv_fert_and_weed_control"
                 style="@style/crop_page_button_text"
-                android:text="Diseases" />
+                android:gravity="center"
+                android:text="Fertilizers and Weed Control" />
         </LinearLayout>
     </LinearLayout>
 
@@ -103,11 +109,13 @@
 
             <ImageView
                 style="@style/crop_page_image_button"
-                android:src="@drawable/thumbnail_weed" />
+                android:src="@drawable/thumbnail_harvesting" />
 
             <TextView
+                android:id="@+id/tv_harvesting_and_storage"
                 style="@style/crop_page_button_text"
-                android:text="Weed Control" />
+                android:gravity="center"
+                android:text="Harvesting and\nStorage" />
         </LinearLayout>
 
         <LinearLayout style="@style/verticle_seperator" />
@@ -121,9 +129,9 @@
                 android:src="@drawable/thumbnail_harvesting" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_plant_protection"
                 style="@style/crop_page_button_text"
-                android:text="Harvesting\nAnd Storage" />
+                android:text="Plant Protection" />
         </LinearLayout>
     </LinearLayout>
 

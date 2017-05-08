@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Abhishek on 04-10-2016.
@@ -62,6 +63,30 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        boolean isPunjabi = false;
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
+            isPunjabi = true;
+        }
+        if (isPunjabi) {
+
+            TextView tv = (TextView) findViewById(R.id.tv_intro_pick_item);
+            tv.setText("ਮੀਨੂ ਵਿੱਚੋਂ ਚੁਣੋ ਜਾਂ ਸਵਾਲ ਪੁੱਛੋ");
+            tv = (TextView) findViewById(R.id.tv_weather_and_timing);
+            tv.setText("ਮੌਸਮ ਅਤੇ ਸਮਾਂ");
+            tv = (TextView) findViewById(R.id.tv_seed_variety);
+            tv.setText("ਬੀਜ ਦੀ ਕਿਸਮ");
+            tv = (TextView) findViewById(R.id.tv_land_and_seed);
+            tv.setText("ਜ਼ਮੀਨ ਅਤੇ ਬੀਜ ਦੀ ਤਿਆਰੀ");
+            tv = (TextView) findViewById(R.id.tv_fert_and_weed_control);
+            tv.setText("ਖਾਦ ਅਤੇ ਬੂਟੀ ਕੰਟਰੋਲ");
+            tv = (TextView) findViewById(R.id.tv_harvesting_and_storage);
+            tv.setText("ਵਾਢੀ ਅਤੇ ਸਟੋਰੇਜ");
+            tv = (TextView) findViewById(R.id.tv_plant_protection);
+            tv.setText("ਪੌਦਾ ਸੁਰੱਖਿਆ");
+            queryAsker.setText("ਸਵਾਲ ਪੁੱਛੋ");
+        }
         // Zero based indexing is used to specify which infographics to show.
         // 0 : weather related infographics
         // 1 : Soil preparation related infographics
@@ -200,8 +225,11 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
                 Intent i = getBaseContext().getPackageManager()
                         .getLaunchIntentForPackage(getBaseContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra("APP_LANG_CHANGE", "YES");
                 startActivity(i);
-                finish();
+                //finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         }
 

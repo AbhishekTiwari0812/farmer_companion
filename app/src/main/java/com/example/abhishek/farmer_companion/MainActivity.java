@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     static final String CROP_NAME = "CROP_NAME";
@@ -31,6 +32,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout crop_page_layout = (LinearLayout) findViewById(R.id.activity_crop_main);
         crop_page_layout.setVisibility(View.GONE);
 
+        boolean isPunjabi = false;
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
+            isPunjabi = true;
+        }
+
+        if (isPunjabi) {
+            TextView tv = (TextView) findViewById(R.id.string_wheat);
+            tv.setText("ਕਣਕ");
+            tv = (TextView) findViewById(R.id.string_paddy);
+            tv.setText("ਝੋਨਾ");
+            tv = (TextView) findViewById(R.id.string_cotton);
+            tv.setText("ਕਪਾਹ");
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -130,9 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra(CROP_NAME, cropName);
             startActivity(intent);
             //finish();
-        }
-
-        else if (preferredLanguage != null) {
+        } else if (preferredLanguage != null) {
             SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
             String prevLang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
             if (prevLang.compareTo(preferredLanguage) == 0) {
@@ -146,8 +160,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent i = getBaseContext().getPackageManager()
                         .getLaunchIntentForPackage(getBaseContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra("APP_LANG_CHANGE", "YES");
                 startActivity(i);
-                finish();
+                //finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         }
 

@@ -4,6 +4,7 @@ package com.example.abhishek.farmer_companion;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -118,6 +119,10 @@ public class SlideViewer extends AppCompatActivity {
     private ArrayList<ListItemObject> fillList() {
         //Get the text for info-graphics from TextInfoClass
         TextInfoClass infoText = new TextInfoClass();
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+
         String resLocation = sectionInformer;       // directory location where the resource is located for current page.
         // for current crop and section,
         // Fetching images and audio
@@ -135,8 +140,11 @@ public class SlideViewer extends AppCompatActivity {
                 a.imageResourceLocation = R.drawable.default_image;     // If an image is missing and audio is present, a place holder image
                 // is set.
             }
-
-            a.textInfo = infoText.getText(sectionInformer + i);     // sets the text information about the info-graphic.
+            if (isPunjabi) {
+                a.textInfo = infoText.getText(sectionInformer + i + "_pun");     // sets the text information about the info-graphic.
+            } else {
+                a.textInfo = infoText.getText(sectionInformer + i);     // sets the text information about the info-graphic.
+            }
             list.add(a);
         }
         HashMap<Integer, String> videoUrls = getVideoUrl();
@@ -160,6 +168,7 @@ public class SlideViewer extends AppCompatActivity {
         ArrayList<Integer> list = new ArrayList<>();
         String url = "";
         String dest = "";
+
         if (isImage) {
             url = "drawable/" + resIdInit;
             dest = "drawable";
@@ -169,11 +178,23 @@ public class SlideViewer extends AppCompatActivity {
             dest = "raw";
             _("Listing audio from:" + resIdInit);
         }
+        boolean isPunjabi = false;
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
+            isPunjabi = true;
+        }
+
         int i = 0;
         while (true) {
             try {
                 _("getting:" + url + i);
-                int imageResource = getResources().getIdentifier(url + i, dest, getPackageName());
+                int imageResource = 0;
+                if (isPunjabi) {
+                    imageResource = getResources().getIdentifier(url + i + "_pun", dest, getPackageName());
+                } else {
+                    imageResource = getResources().getIdentifier(url + i, dest, getPackageName());
+                }
                 if (imageResource == 0)
                     return list;
                 list.add(imageResource);
@@ -182,7 +203,7 @@ public class SlideViewer extends AppCompatActivity {
                 return list;
             }
             i++;
-            if (i > 5)
+            if (i > 30)
                 return list;
             _("Current i = " + i);
         }
@@ -220,7 +241,9 @@ public class SlideViewer extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            if (dots.length > 10)
+                dots[i].setTextSize(20);
+            else dots[i].setTextSize(35);
             dots[i].setTextColor(colorsInactive[currentPage % 4]); // color can be changed inside the color.xml
             dotsLayout.addView(dots[i]);
         }

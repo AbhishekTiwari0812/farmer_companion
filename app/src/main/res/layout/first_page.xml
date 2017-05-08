@@ -24,10 +24,10 @@
         <Button
             android:id="@+id/button1"
             style="@style/page1_button_style"
-            android:background="@drawable/wheat_round"
-            />
+            android:background="@drawable/wheat_round" />
 
         <TextView
+            android:id="@+id/string_wheat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -48,11 +48,12 @@
             android:id="@+id/button2"
             style="@style/page1_button_style"
             android:layout_width="wrap_content"
-            android:clickable="false"
             android:layout_height="wrap_content"
-            android:background="@drawable/paddy_round" />
+            android:background="@drawable/paddy_round"
+            android:clickable="false" />
 
         <TextView
+            android:id="@+id/string_paddy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -74,11 +75,12 @@
             android:id="@+id/button3"
             style="@style/page1_button_style"
             android:layout_width="wrap_content"
-            android:clickable="false"
             android:layout_height="wrap_content"
-            android:background="@drawable/cotton_round" />
+            android:background="@drawable/cotton_round"
+            android:clickable="false" />
 
         <TextView
+            android:id="@+id/string_cotton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
