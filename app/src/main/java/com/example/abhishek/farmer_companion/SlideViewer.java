@@ -43,29 +43,16 @@ public class SlideViewer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: remove this if needed.
-        // Making notification bar transparent
-        /*if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }*/
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
-        // Getting the information about the current crop name.
-        // And the section,
-        // to decide which info-graphics to show.
-        // Example: wheat_0_  OR paddy_1_
-        Intent intent = getIntent();
-        sectionInformer = intent.getStringExtra("CROP_SECTION");
         setContentView(R.layout.crop_static_layout);
-        // Setting up the slide view.
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnPrev = (Button) findViewById(R.id.btn_prev);
         btnNext = (Button) findViewById(R.id.btn_next);
-        // Filling the slide view with infographic information.
+
         infographic_list = fillList();      // Gets the content to be filled in the views.
         int infographic_size = infographic_list.size();
         if (infographic_size > 1) {
@@ -75,10 +62,8 @@ public class SlideViewer extends AppCompatActivity {
         // to this layout-array before constructing the view.
         for (int i = 0; i < infographic_size; ++i)
             layouts[i] = R.layout.infographic_layout;
-
         // adding bottom dots
         addBottomDots(0);
-        //TODO: is it needed?
         // making notification bar transparent
         changeStatusBarColor();
         //TODO: send resources to populate the list items here!
@@ -118,11 +103,15 @@ public class SlideViewer extends AppCompatActivity {
     // returns content to populate the slide-viewer
     private ArrayList<ListItemObject> fillList() {
         //Get the text for info-graphics from TextInfoClass
+        Intent intent = getIntent();
+        sectionInformer = intent.getStringExtra("CROP_SECTION");
+        if (sectionInformer == null) {
+            return fillResponseInfoGraph(intent);
+        }
         TextInfoClass infoText = new TextInfoClass();
         SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
         String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
         boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
-
         String resLocation = sectionInformer;       // directory location where the resource is located for current page.
         // for current crop and section,
         // Fetching images and audio
@@ -133,7 +122,6 @@ public class SlideViewer extends AppCompatActivity {
         ArrayList<ListItemObject> list = new ArrayList<>();
         for (int i = 0; i < listSize; ++i) {
             ListItemObject a = new ListItemObject();
-            //TODO: add condition to handle errors.
             if (i < imageListSize)
                 a.imageResourceLocation = images.get(i);
             else {
@@ -144,6 +132,53 @@ public class SlideViewer extends AppCompatActivity {
                 a.textInfo = infoText.getText(sectionInformer + i + "_pun");     // sets the text information about the info-graphic.
             } else {
                 a.textInfo = infoText.getText(sectionInformer + i);     // sets the text information about the info-graphic.
+            }
+            list.add(a);
+        }
+        HashMap<Integer, String> videoUrls = getVideoUrl();
+        for (int i = 0; i < list.size(); ++i) {
+            ListItemObject currObj = list.get(i);
+            Integer imgUrl = currObj.getImageResource();
+            if (videoUrls.containsKey(imgUrl)) {
+                currObj.isVideo = true;
+                currObj.vidUrl = videoUrls.get(imgUrl);
+            }
+        }
+        return list;
+    }
+
+    private ArrayList<ListItemObject> fillResponseInfoGraph(Intent intent) {
+        String[] responseSlides = intent.getStringExtra("InfoGraphicList").split(",");
+        TextInfoClass infoText = new TextInfoClass();
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+        int[] images = new int[responseSlides.length];
+        String baseUrl = "drawable/";
+        for (int i = 0; i < responseSlides.length; ++i) {
+            String srcUrl = "";
+            srcUrl = baseUrl + responseSlides[i];
+            if (isPunjabi) {
+                srcUrl += "_pun";
+            }
+            images[i] = getResources().getIdentifier(srcUrl, "drawable", getPackageName());
+            if (images[i] == 0) {
+                _("Could not find resource for " + srcUrl);
+            }
+        }
+        int imageListSize = images.length;
+        ArrayList<ListItemObject> list = new ArrayList<>();
+        for (int i = 0; i < imageListSize; ++i) {
+            ListItemObject a = new ListItemObject();
+            if (i < imageListSize)
+                a.imageResourceLocation = images[i];
+            else {
+                a.imageResourceLocation = R.drawable.default_image;     // If an image is missing and audio is present, a place holder image
+            }
+            if (isPunjabi) {
+                a.textInfo = infoText.getText(responseSlides[i] + "_pun");     // sets the text information about the info-graphic.
+            } else {
+                a.textInfo = infoText.getText(responseSlides[i]);     // sets the text information about the info-graphic.
             }
             list.add(a);
         }
@@ -209,6 +244,7 @@ public class SlideViewer extends AppCompatActivity {
         }
     }
 
+
     // Used only for debugging.
     private void _(Object s) {
         System.out.println("" + s);
@@ -218,14 +254,48 @@ public class SlideViewer extends AppCompatActivity {
     // TODO: Change the map here if new video is to be added
     private HashMap<Integer, String> getVideoUrl() {
         HashMap<String, String> videoUrlsString = new HashMap<>();
+        videoUrlsString.put("wheat_1_1", "https://youtu.be/rw6fV7dstmA");
         videoUrlsString.put("wheat_1_2", "https://www.youtube.com/watch?v=rw6fV7dstmA");
+        videoUrlsString.put("wheat_2_5", "https://youtu.be/NnrWz7Jujro");
+        videoUrlsString.put("wheat_2_10", "https://youtu.be/c3B29gAmspI");
+        videoUrlsString.put("wheat_2_13", "https://youtu.be/B6MvJ_j00FM");
+        videoUrlsString.put("wheat_3_8", "https://youtu.be/zl1ENNrnS1M");
+        videoUrlsString.put("wheat_3_24", "https://youtu.be/lzTH1x_Ph8w");
+        videoUrlsString.put("wheat_4_2", "https://youtu.be/j-f0KkNNnMs");
+        videoUrlsString.put("wheat_4_3", "https://youtu.be/lsO9GUBuPJo");
+        videoUrlsString.put("wheat_4_4", "https://youtu.be/hZGbTzMy8ZA");
+        videoUrlsString.put("wheat_5_6", "https://youtu.be/TenRNA_usxA");
+        videoUrlsString.put("wheat_5_10", "https://youtu.be/HVTitHBwpN0");
+        videoUrlsString.put("wheat_5_13", "https://youtu.be/oTnTWre488s");
+        videoUrlsString.put("wheat_5_14", "https://youtu.be/lQsQbXlVL0Q");
+        videoUrlsString.put("wheat_5_18", "https://youtu.be/TjrdnEJQlwA");
+        videoUrlsString.put("wheat_5_22", "https://youtu.be/8uzewaZJRtU");
+        videoUrlsString.put("wheat_5_27", "https://youtu.be/eM5CFcNnW1k");
+        videoUrlsString.put("wheat_1_1_pun", "https://youtu.be/rw6fV7dstmA");
+        videoUrlsString.put("wheat_1_2_pun", "https://www.youtube.com/watch?v=rw6fV7dstmA");
+        videoUrlsString.put("wheat_2_5_pun", "https://youtu.be/NnrWz7Jujro");
+        videoUrlsString.put("wheat_2_10_pun", "https://youtu.be/c3B29gAmspI");
+        videoUrlsString.put("wheat_2_13_pun", "https://youtu.be/B6MvJ_j00FM");
+        videoUrlsString.put("wheat_3_8_pun", "https://youtu.be/zl1ENNrnS1M");
+        videoUrlsString.put("wheat_3_24_pun", "https://youtu.be/lzTH1x_Ph8w");
+        videoUrlsString.put("wheat_4_2_pun", "https://youtu.be/j-f0KkNNnMs");
+        videoUrlsString.put("wheat_4_3_pun", "https://youtu.be/lsO9GUBuPJo");
+        videoUrlsString.put("wheat_4_4_pun", "https://youtu.be/hZGbTzMy8ZA");
+        videoUrlsString.put("wheat_5_6_pun", "https://youtu.be/TenRNA_usxA");
+        videoUrlsString.put("wheat_5_10_pun", "https://youtu.be/HVTitHBwpN0");
+        videoUrlsString.put("wheat_5_13_pun", "https://youtu.be/oTnTWre488s");
+        videoUrlsString.put("wheat_5_14_pun", "https://youtu.be/lQsQbXlVL0Q");
+        videoUrlsString.put("wheat_5_18_pun", "https://youtu.be/TjrdnEJQlwA");
+        videoUrlsString.put("wheat_5_22_pun", "https://youtu.be/8uzewaZJRtU");
+        videoUrlsString.put("wheat_5_27_pun", "https://youtu.be/eM5CFcNnW1k");
+
+
         HashMap<Integer, String> videoUrls = new HashMap<>();
         List<String> urls = new ArrayList<>(videoUrlsString.keySet());
         for (int i = 0; i < videoUrlsString.size(); ++i) {
             int imageresource = getResources().getIdentifier("drawable/" + urls.get(i), "drawable", getPackageName());
             videoUrls.put(imageresource, videoUrlsString.get(urls.get(i)));
-            // _("set image resource: " + imageresource);
-            // _("IMG URL STRING::" + "drawable/" + urls.get(i));
+            _("set image resource: " + imageresource);
         }
         return videoUrls;
     }

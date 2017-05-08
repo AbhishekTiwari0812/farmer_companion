@@ -28,6 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".TutorialSlide"></activity>
-
+        <activity android:name=".QueryResponsePage"></activity>
     </application>
 </manifest>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:id="@+id/ll_response_image1"
+        style="@style/response_page_layout">
+
+        <ImageView
+            android:id="@+id/iv_reponse1"
+            style="@style/response_page_imageview" />
+
+        <TextView
+            android:id="@+id/tv_response1"
+            style="@style/response_page_textview" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_response_image2"
+        style="@style/response_page_layout">
+
+        <ImageView
+            android:id="@+id/iv_reponse2"
+            style="@style/response_page_imageview" />
+
+        <TextView
+            android:id="@+id/tv_response2"
+            style="@style/response_page_textview" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_response_image3"
+        style="@style/response_page_layout">
+
+        <ImageView
+            android:id="@+id/iv_reponse3"
+            style="@style/response_page_imageview" />
+
+        <TextView
+            android:id="@+id/tv_response3"
+            style="@style/response_page_textview" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

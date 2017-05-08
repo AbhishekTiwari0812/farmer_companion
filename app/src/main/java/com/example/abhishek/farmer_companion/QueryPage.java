@@ -51,7 +51,7 @@ public class QueryPage extends AppCompatActivity {
     String queryImageStringForm;
     String responseFromServer;
     // TODO: change this for correct URL
-    private static final String UPLOAD_URL = "http://10.20.0.100:80/btp/RequestHandler.php";
+    private static final String UPLOAD_URL = "http://fc.pagekite.me/btp/RequestHandler.php";
     ProgressDialog progress;
     Context context;
     int backPressCount;
@@ -268,6 +268,9 @@ public class QueryPage extends AppCompatActivity {
             super.onPostExecute(aVoid);
             progress.dismiss();
             Toast.makeText(getApplicationContext(), "Response:" + responseFromServer, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), QueryResponsePage.class);
+            intent.putExtra("response", responseFromServer);
+            startActivity(intent);
         }
 
         private String getQuery(Map<String, String> params) throws UnsupportedEncodingException {
