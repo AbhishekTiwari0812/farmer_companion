@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:title="Crops">
+        <item android:title="Crops"
+            android:id="@+id/menu_title_crops">
             <menu>
                 <item
                     android:id="@+id/wheat_crop"
@@ -18,7 +19,8 @@
     </group>
 
 
-    <item android:title="Select Language">
+    <item android:title="Select Language"
+        android:id="@+id/menu_title_language">
         <menu>
             <item
                 android:id="@+id/lang_english"

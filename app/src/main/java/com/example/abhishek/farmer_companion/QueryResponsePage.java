@@ -31,6 +31,7 @@ public class QueryResponsePage extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.query_response_page);
         imageview_insect = new ImageView[3];
+        textview_insect = new TextView[3];
 
         imageview_insect[0] = (ImageView) findViewById(R.id.iv_reponse1);
         imageview_insect[1] = (ImageView) findViewById(R.id.iv_reponse2);
@@ -40,6 +41,14 @@ public class QueryResponsePage extends AppCompatActivity implements View.OnClick
         textview_insect[1] = (TextView) findViewById(R.id.tv_response2);
         textview_insect[2] = (TextView) findViewById(R.id.tv_response3);
 
+        for (int i =0; i < 3 ;++ i ){
+            imageview_insect[i].setOnClickListener(this);
+            textview_insect[i].setOnClickListener(this);
+        }
+        findViewById(R.id.ll_response_image1).setOnClickListener(this);
+        findViewById(R.id.ll_response_image2).setOnClickListener(this);
+        findViewById(R.id.ll_response_image3).setOnClickListener(this);
+
         isPunjabi = false;
         SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
         String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
@@ -48,6 +57,7 @@ public class QueryResponsePage extends AppCompatActivity implements View.OnClick
         }
 
         responseFromServer = getIntent().getStringExtra("response");
+        _("Response from SERVER in QueryResponsePage:" + responseFromServer);
         setInsectNameToFile();
         getInsectRes();
         for (int i = 0; i < 3; ++i) {
@@ -66,12 +76,16 @@ public class QueryResponsePage extends AppCompatActivity implements View.OnClick
             for (int i = 0; i < 3; ++i) {
                 String srcUrl = "";
                 srcUrl = baseUrl + insectNameToFile.get(insectNames[i]);
+                _("Tis " + srcUrl);
+                srcUrl = srcUrl.split(",")[0];
                 if (isPunjabi) {
                     srcUrl += "_pun";
                 }
                 insectRes[i] = getResources().getIdentifier(srcUrl, "drawable", getPackageName());
                 if (insectRes[i] == 0) {
                     _("Could not find resource for " + srcUrl);
+                    insectRes[i] = getResources().getIdentifier("drawable/image_404_not_found", "drawable", getPackageName());
+
                 }
             }
 
@@ -101,18 +115,24 @@ public class QueryResponsePage extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_response_image1:
+            case R.id.iv_reponse1:
+            case R.id.tv_response1:
                 Intent intent1 = new Intent(getApplicationContext(), SlideViewer.class);
                 intent1.putExtra("QueryResponse", true);
                 intent1.putExtra("InfoGraphicList", insectNameToFile.get(insectNames[0]));
                 startActivity(intent1);
                 break;
             case R.id.ll_response_image2:
+            case R.id.iv_reponse2:
+            case R.id.tv_response2:
                 Intent intent2 = new Intent(getApplicationContext(), SlideViewer.class);
                 intent2.putExtra("QueryResponse", true);
                 intent2.putExtra("InfoGraphicList", insectNameToFile.get(insectNames[1]));
                 startActivity(intent2);
                 break;
             case R.id.ll_response_image3:
+            case R.id.iv_reponse3:
+            case R.id.tv_response3:
                 Intent intent3 = new Intent(getApplicationContext(), SlideViewer.class);
                 intent3.putExtra("QueryResponse", true);
                 intent3.putExtra("InfoGraphicList", insectNameToFile.get(insectNames[2]));

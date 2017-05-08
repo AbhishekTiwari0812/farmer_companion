@@ -42,8 +42,8 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView sideNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        sideNavigationView.setNavigationItemSelectedListener(this);
 
         // Get the name of the crop
         // To find which infographics to show.
@@ -86,6 +86,21 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
             tv = (TextView) findViewById(R.id.tv_plant_protection);
             tv.setText("ਪੌਦਾ ਸੁਰੱਖਿਆ");
             queryAsker.setText("ਸਵਾਲ ਪੁੱਛੋ");
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            MenuItem tempMenuItem = menu.findItem(R.id.menu_title_crops);
+            tempMenuItem.setTitle("ਫ਼ਸਲ");
+            tempMenuItem = menu.findItem(R.id.wheat_crop);
+            tempMenuItem.setTitle("          ਕਣਕ");
+            tempMenuItem = menu.findItem(R.id.paddy_crop);
+            tempMenuItem.setTitle("          ਝੋਨਾ");
+            tempMenuItem = menu.findItem(R.id.cotton_crop);
+            tempMenuItem.setTitle("          ਕਪਾਹ");
+            tempMenuItem = menu.findItem(R.id.menu_title_language);
+            tempMenuItem.setTitle("ਭਾਸ਼ਾ");
+            tempMenuItem = menu.findItem(R.id.tutorial_opener);
+            tempMenuItem.setTitle("ਕਿਵੇਂ ਵਰਤਣਾ ਹੈ");
         }
         // Zero based indexing is used to specify which infographics to show.
         // 0 : weather related infographics

@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class SlideViewer extends AppCompatActivity {
     ArrayList<ListItemObject> infographic_list;
     private Button btnPrev, btnNext;
     //private PrefManager prefManager;
+    boolean isPunjabi;
     private String sectionInformer;
 
     @Override
@@ -48,15 +50,29 @@ public class SlideViewer extends AppCompatActivity {
             actionBar.hide();
         }
         setContentView(R.layout.crop_static_layout);
+        isPunjabi = false;
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
+            isPunjabi = true;
+        }
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnPrev = (Button) findViewById(R.id.btn_prev);
         btnNext = (Button) findViewById(R.id.btn_next);
 
+        if (isPunjabi) {
+            btnNext.setText("ਅਗਲਾ");
+            btnPrev.setText("ਪਿਛਲੇ");
+        }
+
         infographic_list = fillList();      // Gets the content to be filled in the views.
         int infographic_size = infographic_list.size();
         if (infographic_size > 1) {
-            btnNext.setText("Next");
+            if (!isPunjabi)
+                btnNext.setText("Next");
+            else
+                btnNext.setText("ਅਗਲਾ");
         }
         layouts = new int[infographic_size];        // Layout for views. infographic list sends information
         // to this layout-array before constructing the view.
@@ -72,6 +88,7 @@ public class SlideViewer extends AppCompatActivity {
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         // TODO: Change it make it to go
         // TODO: to previous page.
+
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,9 +126,7 @@ public class SlideViewer extends AppCompatActivity {
             return fillResponseInfoGraph(intent);
         }
         TextInfoClass infoText = new TextInfoClass();
-        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
-        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
-        boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+
         String resLocation = sectionInformer;       // directory location where the resource is located for current page.
         // for current crop and section,
         // Fetching images and audio
@@ -148,50 +163,55 @@ public class SlideViewer extends AppCompatActivity {
     }
 
     private ArrayList<ListItemObject> fillResponseInfoGraph(Intent intent) {
-        String[] responseSlides = intent.getStringExtra("InfoGraphicList").split(",");
-        TextInfoClass infoText = new TextInfoClass();
-        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
-        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
-        boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
-        int[] images = new int[responseSlides.length];
-        String baseUrl = "drawable/";
-        for (int i = 0; i < responseSlides.length; ++i) {
-            String srcUrl = "";
-            srcUrl = baseUrl + responseSlides[i];
-            if (isPunjabi) {
-                srcUrl += "_pun";
+        try {
+            String[] responseSlides = intent.getStringExtra("InfoGraphicList").split(",");
+            TextInfoClass infoText = new TextInfoClass();
+            SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+            String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+            boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+            int[] images = new int[responseSlides.length];
+            String baseUrl = "drawable/";
+            for (int i = 0; i < responseSlides.length; ++i) {
+                String srcUrl = "";
+                srcUrl = baseUrl + responseSlides[i];
+                if (isPunjabi) {
+                    srcUrl += "_pun";
+                }
+                images[i] = getResources().getIdentifier(srcUrl, "drawable", getPackageName());
+                if (images[i] == 0) {
+                    _("Could not find resource for " + srcUrl);
+                }
             }
-            images[i] = getResources().getIdentifier(srcUrl, "drawable", getPackageName());
-            if (images[i] == 0) {
-                _("Could not find resource for " + srcUrl);
+            int imageListSize = images.length;
+            ArrayList<ListItemObject> list = new ArrayList<>();
+            for (int i = 0; i < imageListSize; ++i) {
+                ListItemObject a = new ListItemObject();
+                if (i < imageListSize)
+                    a.imageResourceLocation = images[i];
+                else {
+                    a.imageResourceLocation = R.drawable.default_image;     // If an image is missing and audio is present, a place holder image
+                }
+                if (isPunjabi) {
+                    a.textInfo = infoText.getText(responseSlides[i] + "_pun");     // sets the text information about the info-graphic.
+                } else {
+                    a.textInfo = infoText.getText(responseSlides[i]);     // sets the text information about the info-graphic.
+                }
+                list.add(a);
             }
+            HashMap<Integer, String> videoUrls = getVideoUrl();
+            for (int i = 0; i < list.size(); ++i) {
+                ListItemObject currObj = list.get(i);
+                Integer imgUrl = currObj.getImageResource();
+                if (videoUrls.containsKey(imgUrl)) {
+                    currObj.isVideo = true;
+                    currObj.vidUrl = videoUrls.get(imgUrl);
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "No resources found", Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
         }
-        int imageListSize = images.length;
-        ArrayList<ListItemObject> list = new ArrayList<>();
-        for (int i = 0; i < imageListSize; ++i) {
-            ListItemObject a = new ListItemObject();
-            if (i < imageListSize)
-                a.imageResourceLocation = images[i];
-            else {
-                a.imageResourceLocation = R.drawable.default_image;     // If an image is missing and audio is present, a place holder image
-            }
-            if (isPunjabi) {
-                a.textInfo = infoText.getText(responseSlides[i] + "_pun");     // sets the text information about the info-graphic.
-            } else {
-                a.textInfo = infoText.getText(responseSlides[i]);     // sets the text information about the info-graphic.
-            }
-            list.add(a);
-        }
-        HashMap<Integer, String> videoUrls = getVideoUrl();
-        for (int i = 0; i < list.size(); ++i) {
-            ListItemObject currObj = list.get(i);
-            Integer imgUrl = currObj.getImageResource();
-            if (videoUrls.containsKey(imgUrl)) {
-                currObj.isVideo = true;
-                currObj.vidUrl = videoUrls.get(imgUrl);
-            }
-        }
-        return list;
     }
 
     // helper function for fill-list.
@@ -213,16 +233,11 @@ public class SlideViewer extends AppCompatActivity {
             dest = "raw";
             _("Listing audio from:" + resIdInit);
         }
-        boolean isPunjabi = false;
-        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
-        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
-        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
-            isPunjabi = true;
-        }
-
         int i = 0;
         while (true) {
             try {
+                if (i > 40)
+                    return list;
                 _("getting:" + url + i);
                 int imageResource = 0;
                 if (isPunjabi) {
@@ -230,16 +245,18 @@ public class SlideViewer extends AppCompatActivity {
                 } else {
                     imageResource = getResources().getIdentifier(url + i, dest, getPackageName());
                 }
-                if (imageResource == 0)
-                    return list;
+                if (imageResource == 0){
+                    i++;
+                    continue;
+                }
+
                 list.add(imageResource);
             } catch (Exception e) {
                 _("no more items found");
                 return list;
             }
             i++;
-            if (i > 30)
-                return list;
+
             _("Current i = " + i);
         }
     }
@@ -337,11 +354,18 @@ public class SlideViewer extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'Finish'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText("Finish");
+                if (!isPunjabi)
+                    btnNext.setText("Finish");
+                else {
+                    btnNext.setText("ਮੁਕੰਮਲ");
+                }
                 btnPrev.setVisibility(View.GONE);
             } else {
                 // still pages are left
-                btnNext.setText("NEXT");
+                if (isPunjabi)
+                    btnNext.setText("ਅਗਲਾ");
+                else
+                    btnNext.setText("NEXT");
                 btnPrev.setVisibility(View.VISIBLE);
             }
             if (position >= 1) {

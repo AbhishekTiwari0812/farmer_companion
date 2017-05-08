@@ -46,6 +46,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tv.setText("ਝੋਨਾ");
             tv = (TextView) findViewById(R.id.string_cotton);
             tv.setText("ਕਪਾਹ");
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            MenuItem tempMenuItem = menu.findItem(R.id.menu_title_crops);
+            tempMenuItem.setTitle("ਫ਼ਸਲ");
+            tempMenuItem = menu.findItem(R.id.wheat_crop);
+            tempMenuItem.setTitle("          ਕਣਕ");
+            tempMenuItem = menu.findItem(R.id.paddy_crop);
+            tempMenuItem.setTitle("          ਝੋਨਾ");
+            tempMenuItem = menu.findItem(R.id.cotton_crop);
+            tempMenuItem.setTitle("          ਕਪਾਹ");
+            tempMenuItem = menu.findItem(R.id.menu_title_language);
+            tempMenuItem.setTitle("ਭਾਸ਼ਾ");
+            tempMenuItem = menu.findItem(R.id.tutorial_opener);
+            tempMenuItem.setTitle("ਕਿਵੇਂ ਵਰਤਣਾ ਹੈ");
+
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

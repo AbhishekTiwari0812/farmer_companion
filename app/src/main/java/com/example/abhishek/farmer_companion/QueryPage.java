@@ -3,6 +3,7 @@ package com.example.abhishek.farmer_companion;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -51,7 +51,7 @@ public class QueryPage extends AppCompatActivity {
     String queryImageStringForm;
     String responseFromServer;
     // TODO: change this for correct URL
-    private static final String UPLOAD_URL = "http://fc.pagekite.me/btp/RequestHandler.php";
+    private static final String UPLOAD_URL = "http://fc.pagekite.me/BTP/RequestHandler.php";
     ProgressDialog progress;
     Context context;
     int backPressCount;
@@ -60,7 +60,15 @@ public class QueryPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.query_page);
+
+        boolean isPunjabi = false;
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        if (flag.compareTo(OneTimeActivity.ENGLISH) != 0) {
+            isPunjabi = true;
+        }
         this.setTitle("  Ask Question");
+
         backPressCount = 0;
         context = this;
         queryButtonLayout = (LinearLayout) findViewById(R.id.image_query_layout);
@@ -97,7 +105,18 @@ public class QueryPage extends AppCompatActivity {
             }
         });
 
+        if (isPunjabi) {
+            this.setTitle("  ਪ੍ਰਸ਼ਨ ਪੁੱਛੋ");
+            TextView temp = (TextView) findViewById(R.id.tv_query_page_static);
+            temp.setText("ਸਾਨੂੰ ਕੀੜੇ ਦੀਆਂ ਫੋਟੋਆਂ ਵਰਤ ਕੇ ਪੁੱਛੋ");
+            sendDataButton.setText("ਚਿੱਤਰ ਭੇਜੋ");
+            uploadFromPhone.setText("ਫੋਨ ਤੋਂ ਚਿੱਤਰ ਨੂੰ ਅਪਲੋਡ ਕਰੋ");
+            captureImage.setText("ਤਸਵੀਰ ਲਵੋ");
+            tv_or_string.setText("ਜਾਂ");
+        }
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -267,7 +286,8 @@ public class QueryPage extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progress.dismiss();
-            Toast.makeText(getApplicationContext(), "Response:" + responseFromServer, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Response:" + responseFromServer, Toast.LENGTH_LONG).show();
+            System.out.println("\"Response:\" + responseFromServer");
             Intent intent = new Intent(getApplicationContext(), QueryResponsePage.class);
             intent.putExtra("response", responseFromServer);
             startActivity(intent);

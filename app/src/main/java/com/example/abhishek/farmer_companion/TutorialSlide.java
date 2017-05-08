@@ -35,6 +35,7 @@ public class TutorialSlide extends AppCompatActivity {
     ArrayList<ListItemObject> infographic_list;
     private Button btnPrev, btnNext;
     boolean isOpenedThroughDrawer;
+    boolean isPunjabi;
     //private PrefManager prefManager;
     private String sectionInformer;
 
@@ -46,15 +47,29 @@ public class TutorialSlide extends AppCompatActivity {
             actionBar.hide();
         }
         setContentView(R.layout.crop_static_layout);
+
+        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
+        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
+        isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+
         isOpenedThroughDrawer = (getIntent().getStringExtra("drawer_flag") != null);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnPrev = (Button) findViewById(R.id.btn_prev);
         btnNext = (Button) findViewById(R.id.btn_next);
         infographic_list = fillList();      // Gets the content to be filled in the views.
+
+        if (isPunjabi) {
+            btnNext.setText("ਅਗਲਾ");
+            btnPrev.setText("ਪਿਛਲੇ");
+        }
+
         int infographic_size = infographic_list.size();
         if (infographic_size > 1) {
-            btnNext.setText("Next");
+            if (isPunjabi)
+                btnNext.setText("ਅਗਲਾ");
+            else
+                btnNext.setText("Next");
         }
         layouts = new int[infographic_size];        // Layout for views. infographic list sends information
         // to this layout-array before constructing the view.
@@ -110,9 +125,7 @@ public class TutorialSlide extends AppCompatActivity {
     private ArrayList<ListItemObject> fillList() {
         //Get the text for info-graphics from TextInfoClass
         TextInfoClass infoText = new TextInfoClass();
-        SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
-        String lang = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
-        boolean isPunjabi = (lang.compareTo(OneTimeActivity.PUNJABI) == 0);
+
         ArrayList<Integer> images = getResList();
         int imageListSize = images.size();
         // populating the list
@@ -224,11 +237,19 @@ public class TutorialSlide extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'Finish'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText("Finish");
+                if (!isPunjabi)
+                    btnNext.setText("Finish");
+                else {
+                    btnNext.setText("ਮੁਕੰਮਲ");
+                }
                 btnPrev.setVisibility(View.GONE);
             } else {
                 // still pages are left
-                btnNext.setText("NEXT");
+                if (isPunjabi)
+                    btnNext.setText("ਅਗਲਾ");
+                else
+                    btnNext.setText("NEXT");
+
                 btnPrev.setVisibility(View.VISIBLE);
             }
             if (position >= 1) {

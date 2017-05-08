@@ -126,7 +126,7 @@
 
             <ImageView
                 style="@style/crop_page_image_button"
-                android:src="@drawable/thumbnail_harvesting" />
+                android:src="@drawable/thumbnail_plant_protection" />
 
             <TextView
                 android:id="@+id/tv_plant_protection"
