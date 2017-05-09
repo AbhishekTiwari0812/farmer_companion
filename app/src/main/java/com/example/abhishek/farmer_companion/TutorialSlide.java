@@ -312,7 +312,7 @@ public class TutorialSlide extends AppCompatActivity {
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             infoImage.getLayoutParams().height = 4 * dm.heightPixels / 5;
-            infoImage.getLayoutParams().width = dm.widthPixels;
+            infoImage.getLayoutParams().width = 7*dm.widthPixels/8;
             infoImage.setScaleY(1);
             infoImage.setImageResource(image_res[position]);
             infoText.setVisibility(View.GONE);

@@ -30,10 +30,16 @@ public class CropPage extends AppCompatActivity implements NavigationView.OnNavi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.side_drawer_main);
+
+        // showing two layout at once to share the side drawer.
+        // Make the other layout invisible.
         LinearLayout crop_page_layout = (LinearLayout) findViewById(R.id.activity_crop_main);
         crop_page_layout.setVisibility(View.VISIBLE);
         LinearLayout main_page_layout = (LinearLayout) findViewById(R.id.activity_main);
         main_page_layout.setVisibility(View.GONE);
+
+        // Setting the side drawer
+        // The parent layout must have no action-bar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

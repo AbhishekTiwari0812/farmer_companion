@@ -22,16 +22,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     *   App opener activity.
     *   After splash activity, control reaches here.
+    *   From here (possible) --> tutorialActivity
+    *                            CropPage activity
+    *                            Language change and restart.
     * */
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.side_drawer_main);
-
+        // showing two layout at once to share the side drawer.
+        // Make the other layout invisible.
         LinearLayout main_page_layout = (LinearLayout) findViewById(R.id.activity_main);
         main_page_layout.setVisibility(View.VISIBLE);
         LinearLayout crop_page_layout = (LinearLayout) findViewById(R.id.activity_crop_main);
         crop_page_layout.setVisibility(View.GONE);
 
+        // check language preference
         boolean isPunjabi = false;
         SharedPreferences preferences = getSharedPreferences(OneTimeActivity.PREF_FILE, MODE_PRIVATE);
         String flag = preferences.getString(OneTimeActivity.PREF_LANG, OneTimeActivity.ENGLISH);
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isPunjabi = true;
         }
 
+        // Translate layout components if isPunjabi==true.
         if (isPunjabi) {
             TextView tv = (TextView) findViewById(R.id.string_wheat);
             tv.setText("ਕਣਕ");
@@ -64,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+
+        // Setting the side drawer
+        // The parent layout must have no action-bar.
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        // setting on click listeners on the crop layouts.
+        // CROP_NAME : Tells the next activity which crop to show.
+        // Since it is created dynamically for each crop.
         LinearLayout wheatPage = (LinearLayout) findViewById(R.id.layout_wheat_crop);
         wheatPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
         LinearLayout paddyPage = (LinearLayout) findViewById(R.id.layout_paddy_crop);
         paddyPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
         LinearLayout cottonPage = (LinearLayout) findViewById(R.id.layout_cotton_crop);
         cottonPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,12 +172,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.lang_punjabi) {
             preferredLanguage = OneTimeActivity.PUNJABI;
         } else if (id == R.id.tutorial_opener) {
+            // Open the tutorial.
+            // drawer_flag tells the subsequent activity
+            // that the tutorial is not actully being opened for the first time.
+            // Since tutorial is made to open automatically when app runs for the first time.
             Intent intent = new Intent(getApplicationContext(), TutorialSlide.class);
             intent.putExtra("drawer_flag", "true");
             startActivity(intent);
         }
 
         if (cropName != null) {
+            // If a crop is picked, open new activity for the crop.
+            // No need to finish current, because it's already the main-page.
             Intent intent = new Intent(getApplicationContext(), CropPage.class);
             intent.putExtra(CROP_NAME, cropName);
             startActivity(intent);
@@ -173,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             } else {
+                // IF the language is changed...
+                // Set the new preferences, and restart the app.
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(OneTimeActivity.PREF_LANG, preferredLanguage);
                 editor.commit();
@@ -182,8 +206,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 i.putExtra("APP_LANG_CHANGE", "YES");
                 startActivity(i);
                 finish();
-                //android.os.Process.killProcess(android.os.Process.myPid());
-                //System.exit(1);
             }
         }
 

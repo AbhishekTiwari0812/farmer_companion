@@ -234,9 +234,10 @@ public class SlideViewer extends AppCompatActivity {
             _("Listing audio from:" + resIdInit);
         }
         int i = 0;
+        int resAdded = 0;
         while (true) {
             try {
-                if (i > 40)
+                if (i > 40 || resAdded > 29)
                     return list;
                 _("getting:" + url + i);
                 int imageResource = 0;
@@ -245,12 +246,14 @@ public class SlideViewer extends AppCompatActivity {
                 } else {
                     imageResource = getResources().getIdentifier(url + i, dest, getPackageName());
                 }
-                if (imageResource == 0){
+                if (imageResource == 0) {
                     i++;
                     continue;
+                } else {
+                    ++resAdded;
+                    list.add(imageResource);
                 }
 
-                list.add(imageResource);
             } catch (Exception e) {
                 _("no more items found");
                 return list;
