@@ -279,6 +279,7 @@ public class SlideViewer extends AppCompatActivity {
         videoUrlsString.put("wheat_2_5", "https://youtu.be/NnrWz7Jujro");
         videoUrlsString.put("wheat_2_10", "https://youtu.be/c3B29gAmspI");
         videoUrlsString.put("wheat_2_13", "https://youtu.be/B6MvJ_j00FM");
+        videoUrlsString.put("wheat_3_5", "https://www.youtube.com/watch?v=WXBKvIqPCbo&feature=youtu.be");
         videoUrlsString.put("wheat_3_8", "https://youtu.be/zl1ENNrnS1M");
         videoUrlsString.put("wheat_3_24", "https://youtu.be/lzTH1x_Ph8w");
         videoUrlsString.put("wheat_4_2", "https://youtu.be/j-f0KkNNnMs");
